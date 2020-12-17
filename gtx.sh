@@ -32,6 +32,8 @@
 #   TGT_GH_REPO=mynewproject
 #
 
+clear 
+
 printf "
 ########################### GitHub Transfer ############################
 
@@ -39,8 +41,6 @@ printf "
 
 ########################################################################
 "
-
-clear 
 
 # Check jq
 if ! type "jq" > /dev/null
@@ -89,7 +89,7 @@ GH_AUTH_HEADER="Authorization: Bearer $GH_TOKEN"
 
 # Bash for-loop over JSON array with jq
 # https://starkandwayne.com/blog/bash-for-loop-over-json-array-using-jq/
-sourceItemsJson64=$(curl --silent -H "$GH_ACCEPT_HEADER" -H "$GH_AUTH_HEADER" ${GH_DOMAIN}/repos/${SRC_GH_USER}/${SRC_GH_REPO}/issues?per_page=100 | jq '[ .[] | { "title": .title, "body": .body, "assignees": .assignees, "milestone": .milestone, "labels": .labels  } ]' | jq -r '.[] | @base64' )
+sourceItemsJson64=$(curl --silent -H "$GH_ACCEPT_HEADER" -H "$GH_AUTH_HEADER" ${GH_DOMAIN}/repos/${SRC_GH_USER}/${SRC_GH_REPO}/issues?per_page=1000 | jq '[ .[] | { "title": .title, "body": .body, "assignees": .assignees, "milestone": .milestone, "labels": .labels  } ]' | jq -r '.[] | @base64' )
 
 # for each postable item from source repo,
 # invoke github api to create or update
